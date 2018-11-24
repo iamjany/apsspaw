@@ -9,14 +9,18 @@ branches:
   only:
     - master 
     - develop
-
-# install Environment di OS
-before_install:
-  - curl -LO https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.text)/bin/linux/amd64/kubectl
-  - chmod +x ./kubectl
-  - sudo mv .kubectl/usr/local/bin/kubectl
+#jalanqan install pacage dll
 # Precompile
 before_script:
+  - cp .env.travis .env
+  - composer install --no-interaction
+  - php artisan key:generate
+
 
 # Main Execution (Build)
 script:
+  - ./vendor/bin/phpunit
+
+
+# when the condision main execution finish
+  after_success:
